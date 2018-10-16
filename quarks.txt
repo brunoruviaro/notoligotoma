@@ -1,0 +1,3 @@
+~/.local/share/SuperCollider/downloaded-quarks/XML=https://github.com/supercollider-quarks/XML@a32e434250b33cdbb4d08b97f547e972ad7d915f
+~/.local/share/SuperCollider/downloaded-quarks/wslib=https://github.com/supercollider-quarks/wslib@a95e6b9100faf5e1853d28ef369511ed5798ea16
+~/.local/share/SuperCollider/downloaded-quarks/MathLib=https://github.com/supercollider-quarks/MathLib@9927c0bd7bc5ce0189309321edfae5735bc4a14d
