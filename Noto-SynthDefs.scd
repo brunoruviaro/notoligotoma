@@ -63,18 +63,15 @@ s.waitForBoot({
 		Out.ar(0, [snd, snd]);
 	}).add;
 
-
-	// amplitude follower
-	// detects hits from contact mics
-	// sends trigger to language (OSC) to activate sound function
-	~amplitudeAnalysis = {arg in, rate = 20, amp = 0.1, time = 0.05;
+	SynthDef("amplitudeAnalysis", {arg in=0, rate = 20, amp = 0.1, time = 0.05;
 		var input = SoundIn.ar(in);
 		var inAmp = Amplitude.kr(input);
 		// var trig = Impulse.kr(rate);
 		var trig = 1 - DetectSilence.ar(in: input + Impulse.kr(0), amp: amp, time: time);
 		SendReply.ar(trig, '/analysis', [inAmp]);
-	}.play;
+	}).add;
 
-});
+	"Noto-SynthDefs.scd loaded!".postln;
 
-"Noto-SynthDefs.scd loaded!";
+}); // end of waitForBoot
+

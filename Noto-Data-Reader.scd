@@ -90,7 +90,7 @@ markov.makeSeeds;
 ~markovStream = markov.asStream;
 
 
-"Noto-Data-Reader.scd loaded!";
+"Noto-Data-Reader.scd loaded!".postln;
 
 // yay
 // Pbind(\degree, Pfunc({ ~markovStream.next }), \dur, 0.12).play;

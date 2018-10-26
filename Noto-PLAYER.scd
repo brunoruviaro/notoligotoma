@@ -1,65 +1,55 @@
-// Noto SynthDefs
+// ================================================
+// Notoligotoma
+// Piece for percussion and electronics
+// October 2018
+// Bruno Tucunduva Ruviaro
+//
+// PLAYER file
+//
+// TO RUN:
+// Select all (Ctrl+A) and evaluate (Ctrl+Enter)
+//
+// TO STOP: Ctrl + Period
+//
+// =================================================
 
+{
+	// Choose which contact mic hitNumber to start from
+	~startFrom = 1;
 
-// =================================
-// Read raw data and process it
-"Noto-Data-Reader.scd".loadRelative;
+	// =================================
+	// Read raw data and process it
+	"Noto-Data-Reader.scd".loadRelative;
 
+	0.1.wait;
+	// =================================
+	// Load sections dictionary
+	"Noto-Sections-Dictionary.scd".loadRelative;
 
-// =================================
-// Boot server and load Synth Definitions
-"Noto-SynthDefs.scd".loadRelative;
+	0.1.wait;
+	// =================================
+	// Load sound function
+	"Noto-Sound-Function.scd".loadRelative;
 
+	0.1.wait;
+	// =================================
+	// Boot server and load Synth Definitions
+	"Noto-SynthDefs.scd".loadRelative;
 
+	"wait...".postln;
+	3.wait;
+	// =================================
+	// Start amp detection synth
+	"Noto-Amplitude-Synth.scd".loadRelative;
 
-
-
-
-
-
-// if I keep a running COUNT of contact mic hits, I could specify state changes at certain points
-
-// 1, 2, 3....100.... 400...
-
-// note that these would be trigger (mic hits), not absolute data points (as not all instruments have a mic).
-
-// so for example mic hit #500 might actually be data point 2000 or something.
-
-// so it would be nice to have a counter on Post window, at what mic hit # are we at?
-
-
-/*
-what would state info look like?
-
-
-
-klankRing - klank ringing time
-
-sineRelease - basically duration of percussive hit for sine waves
-
-sineGlissEndPoint - the desired end point of sine glissando (1=nogliss, 2=octave above, etc)
-
-sineGlissEndPointDeviation = how much deviation allowed from EndPoint (+ or - X)
-
-another way of stating gliss would be simply sineGlissMin and sineGlissMax
-
-sineFreqDetune - how much to deviate from Markov freqs (1=in tune, 2=octave above, etc)
-
-*/
-
-
-~hitNumber = 0;
-~klankRingTime =
-~sineReleaseTime =
-~sineGlissMin =
-~sineGlissMax =
-~sineFreqDetune =
+}.fork;
 
 
 
 
 
-
-
+// use this for testing without contact mic
+// x = { Out.ar(2, Impulse.ar(MouseX.kr(1, 10))) }.play;
+// x.free;
 
 
