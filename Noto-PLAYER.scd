@@ -11,7 +11,11 @@
 //
 // TO STOP: Ctrl + Period
 //
+// BEFORE YOU RUN - REQUIREMENT: wslib quark and MathLib quark
+// Quarks.install("MathLib");
+// Quarks.install("wslib");
 // =================================================
+
 
 {
 	// Choose which contact mic hitNumber to start from
