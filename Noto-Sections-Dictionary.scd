@@ -36,7 +36,7 @@
 		~klankRingTime = { arg midinote;
 			var thisValue = ~krt.next;
 			if(~favoriteNotes.includes(midinote) && (thisValue > 6),
-				{ thisValue * rrand(1, 1.5) },
+				{ min(thisValue * rrand(1, 1.5), 25) },
 				{ min(thisValue * rrand(0.5, 1), 20) }
 			);
 		};
@@ -45,11 +45,11 @@
 		~sfdev = Pseq([
 			Pwhite(0.9, 1.1, thisManyHits), // stay small for a while
 			Pwrand( // then alternate 90% "in tune" with markov notes with 10% off those notes
-				[1,	Pwhite(0.95, 1.13, 1)],
+				[1,	Pwhite(0.95, 1.02, 1)],
 				[0.9, 0.1], inf)
 		]).asStream;
 		~sineFreq = { arg midinote;
-			~transp.value(freq: midinote.midicps, min: 2000, max: 15000)
+			~transp.value(freq: midinote.midicps, min: 1000, max: 12000)
 			*
 			~sfdev.next;
 		};
@@ -86,7 +86,89 @@
 
 	\b, {
 
+		// var thisManyHits = 100;
 
+		// KLANK FREQ
+		~klankFreq = { arg midinote; midinote.midicps };
+
+		// KLANK RING
+		~krt = Pgeom(10, 1.01, inf).asStream;
+		~klankRingTime = { arg midinote;
+			var thisValue = ~krt.next;
+			if(~favoriteNotes.includes(midinote),
+				{ min(thisValue * rrand(1, 1.5), 25) },
+				{ min(thisValue * rrand(0.5, 1), 20) }
+			);
+		};
+
+		// SINE FREQUENCY
+		~sfdev = Pwrand([1,	Pwhite(0.95, 1.05, 1)], [0.9, 0.1], inf).asStream;
+		~sineFreq = { arg midinote;
+			~transp.value(freq: midinote.midicps, min: 2000, max: 10000)
+			*
+			~sfdev.next;
+		};
+
+		// SINE RELEASE
+		~srt = Pwhite(1, 5).asStream;
+		~sineReleaseTime = { ~srt.next };
+
+		// SINE GLISSANDO END POINT
+		~glissLo = Pwhite(-0.5, -0.6).asStream;
+		~glissHi = Pwhite(2.0, 2.1).asStream;
+		~sgep = Prand([
+			Pwhite(0.99, 1.11, 1),
+			Pwhite(Pfuncn(~glissLo), Pfuncn(~glissHi), 3).clip(0.5, 3)
+			], inf).asStream;
+		~sineGlissEnd = { ~sgep.next };
+
+		"WOW \b section".postln;
+
+	},
+
+	// ------------
+	// SECTION B
+	// ------------
+
+	\c, {
+
+		// var thisManyHits = 100;
+
+		// KLANK FREQ
+		~klankFreq = { arg midinote; midinote.midicps };
+
+		// KLANK RING
+		~krt = Pgeom(10, 1.01, inf).asStream;
+		~klankRingTime = { arg midinote;
+			var thisValue = ~krt.next;
+			if(~favoriteNotes.includes(midinote),
+				{ min(thisValue * rrand(1, 1.5), 25) },
+				{ min(thisValue * rrand(0.5, 1), 20) }
+			);
+		};
+
+		// SINE FREQUENCY
+		~sfdev = Pwrand([1,	Pwhite(0.95, 1.05, 1)], [0.7, 0.3], inf).asStream;
+		~sineFreq = { arg midinote;
+			~transp.value(freq: midinote.midicps, min: 2000, max: 8000)
+			*
+			~sfdev.next;
+		};
+
+		// SINE RELEASE
+		~srt = Pwhite(5, 11).asStream;
+		~sineReleaseTime = { ~srt.next };
+
+		// SINE GLISSANDO END POINT
+		~glissLo = Pwhite(-0.5, -0.6).asStream;
+		~glissHi = Pwhite(2.0, 2.1).asStream;
+		~sgep = Prand([
+			Pwhite(0.99, 1.11, 1),
+			Pwhite(Pfuncn(~glissLo), Pfuncn(~glissHi), 3).clip(0.5, 3)
+			], inf).asStream;
+		~sineGlissEnd = { ~sgep.next };
+
+		"WOW \c section".postln;
 
 	},
 
@@ -104,10 +186,10 @@
 
 	case
 	{ hitNumber == 1 } { ~dictionary[\a].value }
-	{ hitNumber == 200 } { ~dictionary[\b].value }
-	{ hitNumber == 310 } { ~dictionary[\c].value }
-	{ hitNumber == 400 } { ~dictionary[\d].value }
-	{ hitNumber == 650 } { ~dictionary[\e].value }
+	{ hitNumber == 300 } { ~dictionary[\b].value }
+	{ hitNumber == 450 } { ~dictionary[\c].value }
+	// { hitNumber == 400 } { ~dictionary[\d].value }
+	// { hitNumber == 650 } { ~dictionary[\e].value }
 
 
 };
@@ -118,6 +200,7 @@
 "Noto-Sections-Dictionary.scd loaded!".postln;
 
 
+// ~checkForUpdates.value(200).value;
 /*
 
 klankRingTime: klank ringing time, based on markov fundamental (preferred notes tend to get a longer ring)

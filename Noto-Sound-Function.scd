@@ -19,7 +19,7 @@ OSCdef(\listener, {arg msg;
 	["HIT NUMBER", hitNumber].postln;
 	["hit amp", amp].postln;
 	// Check if parameters need updating, and if yes, update them now.
-	~checkForUpdates.value(hitNumber);
+	~checkForUpdates.value(hitNumber).value;
 	~soundFunc.value(amp)
 }, '/analysis');
 
@@ -68,7 +68,7 @@ OSCdef(\listener, {arg msg;
 			\klankRings, [1, 1/2, 1, 1/2],
 			\klankGliss, [0, 0, 0, 0, 1].choose,
 			\whenGliss, 0.5,
-			\amp, amp; // * min(klankRingTime, 1), // global amp scaling factor
+			\amp, amp, // * min(klankRingTime, 1), // global amp scaling factor
 			\ring, klankRingTime; // global ring scaling factor
 		]
 	); // end of Klank Synth
@@ -76,7 +76,7 @@ OSCdef(\listener, {arg msg;
 	Synth(\siney,
 		[
 			\freq, sineFreq,
-			\amp, amp,
+			\amp, amp * 0.8,
 			\att, 0.01,
 			\rel, sineReleaseTime,
 			\cur, wchoose([-10, -4, -1], [0.3, 0.6, 0.1]),

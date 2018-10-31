@@ -53,7 +53,7 @@
 
 
 // use this for testing without contact mic
-// x = { Out.ar(2, Impulse.ar(MouseX.kr(1, 10))) }.play;
-// x.free;
+x = { Out.ar(2, WhiteNoise.ar(LFPulse.ar(freq: MouseX.kr(1, 20), width: 0.1))) }.play;
+x.free;
 
 
